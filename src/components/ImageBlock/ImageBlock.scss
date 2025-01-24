@@ -1,0 +1,33 @@
+.image-block {
+  position: relative;
+
+  .placeholder {
+    max-width: 150px;
+    height: 100px;
+    background-color: var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .selected-img {
+    max-width: 300px;
+    border-radius: 8px;
+  }
+
+  .image-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    .img-thumbnail {
+      max-width: 90px;
+      object-fit: cover;
+      cursor: pointer;
+      padding: 0;
+      border: 0;
+    }
+  }
+}

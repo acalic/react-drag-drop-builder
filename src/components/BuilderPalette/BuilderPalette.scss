@@ -1,0 +1,19 @@
+.builder-palette {
+  .palette-item {
+    background-color: var(--secondary-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    text-align: center;
+    cursor: grab;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: var(--highlight-color);
+    }
+
+    &.dragging {
+      opacity: 0.5;
+    }
+  }
+}
