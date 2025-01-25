@@ -2,6 +2,12 @@
 
 This project is a drag-and-drop builder application using React, TypeScript, and Vite. It allows users to create layouts by dragging blocks (Text or Image) from a palette into a container, where they can rearrange or edit the blocks.
 
+![Screenshot](./src/assets/screenshot.png)
+
+## Demo
+
+Check out the live demo: [https://react-drag-drop-builder.vercel.app/](https://react-drag-drop-builder.vercel.app/)
+
 ## Features
 
 - **Vite**: Fast and optimized build system.
@@ -43,6 +49,14 @@ Make sure you have the following installed:
 
 4. Open the application in your browser at [http://localhost:5173](http://localhost:5173).
 
+### Running Tests
+
+To run the unit tests, use the following command:
+
+```sh
+yarn test
+```
+
 ### Build for Production
 
 To create an optimized production build, run:
@@ -76,6 +90,7 @@ yarn preview
 - `yarn dev`: Start the development server.
 - `yarn build`: Build the project for production.
 - `yarn preview`: Preview the production build.
+- `yarn test`: Run unit tests.
 
 ## License
 
