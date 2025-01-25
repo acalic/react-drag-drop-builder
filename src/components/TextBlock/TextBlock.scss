@@ -1,0 +1,5 @@
+.text-block {
+  border-radius: var(--border-radius);
+  background-color: var(--secondary-bg);
+  transition: border-color 0.3s ease;
+}

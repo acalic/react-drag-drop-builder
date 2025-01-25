@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
-import { Block } from '../../types';
-import TextBlock from '../TextBlock/TextBlock';
-import ImageBlock from '../ImageBlock/ImageBlock';
-import SaveButton from '../SaveButton/SaveButton';
+import { Block } from '@common/types';
+import TextBlock from '@components/TextBlock/TextBlock';
+import ImageBlock from '@components/ImageBlock/ImageBlock';
+import SaveButton from '@components/SaveButton/SaveButton';
+import ConfirmModal from '@components/ConfirmModal/ConfirmModal';
 import { v4 as uuidv4 } from 'uuid';
 import './DragDropContainer.scss';
 
@@ -13,10 +14,12 @@ interface DragDropContainerProps {
 }
 
 const DragDropContainer: React.FC<DragDropContainerProps> = ({ blocks, setBlocks }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [blockToDelete, setBlockToDelete] = useState<string | null>(null);
+  const blockRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const handleDuplicate = (block: Block) => {
     const newBlock = { ...block, id: uuidv4() };
-
     setBlocks((prev) => {
       const index = prev.findIndex((b) => b.id === block.id);
       const updatedBlocks = [...prev];
@@ -45,65 +48,98 @@ const DragDropContainer: React.FC<DragDropContainerProps> = ({ blocks, setBlocks
     );
   };
 
+  const openModal = (id: string) => {
+    setBlockToDelete(id);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setBlockToDelete(null);
+  };
+
+  const confirmDelete = () => {
+    if (blockToDelete) {
+      handleDelete(blockToDelete);
+      closeModal();
+    }
+  };
+
   return (
-    <Droppable droppableId="blocks">
-      {(provided) => (
-        <div
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-          className="drag-drop-container mb-3"
-        >
-          {blocks.length === 0 && (
-            <div className="empty-message text-center">
-              Drag and drop blocks here
-            </div>
-          )}
-          {blocks.map((block, index) => (
-            <Draggable key={block.id} draggableId={block.id} index={index}>
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                  className="block"
-                >
-                  {block.type === 'text' && (
-                    <TextBlock
-                      id={block.id}
-                      content={block.content || ''}
-                      onContentChange={handleContentChange}
-                    />
-                  )}
-                  {block.type === 'image' && (
-                    <ImageBlock
-                      id={block.id}
-                      selectedImage={block.src || ''}
-                      onImageSelect={handleImageSelect}
-                    />
-                  )}
-                  <div className="block-actions">
-                    <button
-                      className="btn btn-sm btn-secondary mt-2"
-                      onClick={() => handleDuplicate(block)}
-                    >
-                      Duplicate
-                    </button>
-                    <button
-                      className="btn btn-sm btn-danger mt-2"
-                      onClick={() => handleDelete(block.id)}
-                    >
-                      Delete
-                    </button>
+    <>
+      <Droppable droppableId="blocks">
+        {(provided) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="drag-drop-container mb-3"
+          >
+            {blocks.length === 0 && (
+              <div className="empty-message text-center">
+                Drag and drop blocks here
+              </div>
+            )}
+            {blocks.map((block, index) => (
+              <Draggable key={block.id} draggableId={block.id} index={index}>
+                {(provided) => (
+                  <div
+                    ref={(el) => {
+                      provided.innerRef(el);
+                      blockRefs.current[block.id] = el;
+                    }}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    className="block mb-2"
+                    id={block.id}
+                    data-testid="block"
+                  >
+                    {block.type === 'text' && (
+                      <TextBlock
+                        id={block.id}
+                        content={block.content || ''}
+                        onContentChange={handleContentChange}
+                      />
+                    )}
+                    {block.type === 'image' && (
+                      <ImageBlock
+                        id={block.id}
+                        selectedImage={block.src || ''}
+                        onImageSelect={handleImageSelect}
+                      />
+                    )}
+                    <div className="block-actions mt-2">
+                      <button
+                        className="btn btn-sm btn-outline-secondary mr-2"
+                        onClick={() => handleDuplicate(block)}
+                      >
+                        Duplicate
+                      </button>
+                      <button
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={() => openModal(block.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </Draggable>
-          ))}
-          {provided.placeholder}
-          {blocks.length > 0 && <SaveButton blocks={blocks} />}
-        </div>
-      )}
-    </Droppable>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+            {blocks.length > 0 && <SaveButton blocks={blocks} />}
+          </div>
+        )}
+      </Droppable>
+      <ConfirmModal
+        show={showModal}
+        onClose={closeModal}
+        onConfirm={confirmDelete}
+        title="Confirm Delete"
+        message="Are you sure you want to delete this block?"
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
+    </>
   );
 };
 

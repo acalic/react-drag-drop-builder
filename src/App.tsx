@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import BuilderPalette from './components/BuilderPalette/BuilderPalette';
-import DragDropContainer from './components/DragDropContainer/DragDropContainer';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
-import { Block, BlockType } from './types';
+import { Block, BlockType } from './common/types';
 import { v4 as uuidv4 } from 'uuid';
-import logo from './assets/react.svg';
+import Navbar from '@components/Navbar/Navbar';
+import BuilderPalette from '@components/BuilderPalette/BuilderPalette';
+import DragDropContainer from '@components/DragDropContainer/DragDropContainer';
 import './styles/main.scss';
 
 const App: React.FC = () => {
@@ -42,12 +42,7 @@ const App: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a className="navbar-brand" href="#">
-          <img src={logo} alt="logo" />
-          <span>React Drag & Drop</span>
-        </a>
-      </nav>
+      <Navbar />
       <div className="main">
         <div className="sidebar">
           <BuilderPalette />

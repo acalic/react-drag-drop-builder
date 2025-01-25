@@ -1,9 +1,13 @@
+@use './variables.scss' as *;
+
 :root {
   --primary-bg: #{$primary-bg};
   --secondary-bg: #{$secondary-bg};
   --text-color: #{$text-color};
   --border-color: #{$border-color};
+  --border-radius: #{$border-radius};
   --highlight-color: #{$highlight-color};
+  --highlight-color-dark: #{$highlight-color-dark};
 }
 
 body {
@@ -40,11 +44,20 @@ body {
 
 .sidebar {
   background-color: var(--secondary-bg);
-  padding: 2rem;
+  padding: 1rem 2rem;
   width: 100%;
   max-width: 300px;
   overflow-y: auto;
-  border-right: 1px solid var(--border-color);
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    max-width: 200px;
+  }
+
+  @media (max-width: 576px) {
+    padding: 0.5rem;
+    max-width: 140px;
+  }
 }
 
 .content {

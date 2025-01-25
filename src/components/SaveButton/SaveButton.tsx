@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block } from '../../types';
+import { Block } from '@common/types';
 
 interface SaveButtonProps {
   blocks: Block[];
@@ -12,7 +12,7 @@ const SaveButton: React.FC<SaveButtonProps> = ({ blocks }) => {
   };
 
   return (
-    <button className="btn btn-primary" onClick={handleSave}>
+    <button className="btn btn-primary mt-2" onClick={handleSave}>
       Save
     </button>
   );

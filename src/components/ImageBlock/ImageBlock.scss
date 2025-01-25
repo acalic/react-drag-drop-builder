@@ -2,28 +2,51 @@
   position: relative;
 
   .placeholder {
-    max-width: 150px;
-    height: 100px;
+    width: 100%;
+    max-width: 300px;
+    height: 200px; 
     background-color: var(--border-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     cursor: pointer;
+    font-size: 1rem;
+
+    @media (max-width: 500px) {
+      max-width: 100%;
+      height: 150px;
+    }
   }
 
   .selected-img {
+    width: 100%;
     max-width: 300px;
-    border-radius: 8px;
+    height: 200px;
+    border-radius: var(--border-radius);
+
+    @media (max-width: 500px) {
+      max-width: 100%;
+      height: 150px;
+    }
   }
 
   .image-selector {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
     gap: 0.5rem;
-    margin-top: 0.5rem;
+
+    @media (max-width: 500px) {
+      height: auto;
+    }
 
     .img-thumbnail {
-      max-width: 90px;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 2;
       object-fit: cover;
       cursor: pointer;
       padding: 0;

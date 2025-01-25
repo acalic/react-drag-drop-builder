@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import './TextBlock.scss';
 
 interface TextBlockProps {
   id: string;
@@ -13,7 +14,7 @@ const TextBlock: React.FC<TextBlockProps> = ({ id, content, onContentChange }) =
   // Update local state when content prop changes
   useEffect(() => {
     if (textBlockRef.current && !isEditing) {
-      textBlockRef.current.innerText = content;  // Sync content with state when focus is lost
+      textBlockRef.current.innerText = content; // Sync content with state when focus is lost
     }
   }, [content, isEditing]);
 
@@ -32,10 +33,10 @@ const TextBlock: React.FC<TextBlockProps> = ({ id, content, onContentChange }) =
   return (
     <div
       ref={textBlockRef}
-      className="text-block border p-2 rounded"
+      className="text-block p-2"
       contentEditable
       suppressContentEditableWarning
-      onBlur={handleBlur}  // Save content when focus is lost
+      onBlur={handleBlur} // Save content when focus is lost
       onClick={handleClick} // Allow clicking to start editing
     >
       {content}
